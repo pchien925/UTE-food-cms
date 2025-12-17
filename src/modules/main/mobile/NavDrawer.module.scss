@@ -1,0 +1,27 @@
+.drawer {
+    background-color: white;
+    height: 100% !important;
+}
+
+.header {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    img {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.title {
+    color: #38abf1;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.close {
+    cursor: pointer;
+}

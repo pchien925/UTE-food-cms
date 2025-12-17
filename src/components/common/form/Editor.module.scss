@@ -1,0 +1,14 @@
+.buttonWrapper {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+
+    button {
+        font-size: 12px;
+        padding: 5px 10px;
+        display: flex;
+        font-weight: 400;
+        align-items: center;
+    }
+}

@@ -1,0 +1,14 @@
+.empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 300px;
+    .text {
+        margin-top: 10px;
+        color: var(--text-color);
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 22px;
+    }
+}
