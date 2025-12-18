@@ -24,6 +24,7 @@ const UserAdminListPage = ({ pageOptions }) => {
     const search = location.search;
     const statusValue = translate.formatKeys(statusOptions, ['label']);
     const userKindValues = translate.formatKeys(userKindOption, ['label']);
+    const kind = pageOptions?.kind;
 
     const { data, mixinFuncs, queryFilter, loading, pagination } = useListBase({
         apiConfig: {
@@ -54,7 +55,7 @@ const UserAdminListPage = ({ pageOptions }) => {
             };
             funcs.getList = () => {
                 const params = mixinFuncs.prepareGetListParams(queryFilter);
-                mixinFuncs.handleFetchList({ ...params, kind: pageOptions?.kind });
+                mixinFuncs.handleFetchList({ ...params, kind: kind });
             };
             funcs.additionalActionColumnButtons = () => ({
                 delete: (record) => {
@@ -161,7 +162,11 @@ const UserAdminListPage = ({ pageOptions }) => {
     return (
         <PageWrapper routes={pageOptions.renderBreadcrumbs(commonMessage, translate)}>
             <ListPage
-                searchForm={mixinFuncs.renderSearchForm({ fields: searchFields, initialValues: queryFilter })}
+                searchForm={
+                    <div key={kind}>
+                        {mixinFuncs.renderSearchForm({ fields: searchFields, initialValues: queryFilter })}
+                    </div>
+                }
                 actionBar={mixinFuncs.renderActionBar()}
                 baseTable={
                     <BaseTable

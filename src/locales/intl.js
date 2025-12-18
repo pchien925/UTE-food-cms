@@ -46,6 +46,7 @@ export const commonMessage = defineMessages({
     province: 'Province',
     nation: 'Nation',
     village: 'Village',
+    postCode: 'Mã bưu điện',
     kind: 'Loại',
     user: 'Users',
     userKind: 'Loại người dùng',
@@ -139,6 +140,7 @@ export const commonMessage = defineMessages({
     fileName: 'Tên file',
     filePath: 'Đường dẫn file',
     fileType: 'Loại file',
-    applicationName: 'Tên ứng dụng',
-    isPublic: 'Công khai',
+    tag: "Nhãn",
+    tagName: 'Tên nhãn',
+    tagColor: 'Màu nhãn',
 });

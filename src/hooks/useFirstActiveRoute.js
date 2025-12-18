@@ -6,7 +6,6 @@ function useFirstActiveRoute(prop) {
     const { profile } = prop;
 
     function findFirstValidRoute(navs) {
-        console.log(profile);
         for (const nav of navs) {
             if (!nav) continue;
 

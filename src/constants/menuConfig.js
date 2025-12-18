@@ -1,4 +1,4 @@
-import { SettingOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { SettingOutlined, UsergroupAddOutlined, InboxOutlined } from '@ant-design/icons';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import apiConfig from './apiConfig';
@@ -30,6 +30,28 @@ export const navMenuConfig = [
                 key: 'customer',
                 path: '/customers',
                 permission: [apiConfig.account.getList.permissionCode],
+            },
+        ],
+    },
+    {
+        label: <FormattedMessage defaultMessage="Quản lý danh mục" />,
+        key: 'category-management',
+        icon: <InboxOutlined />,
+        permission: [
+            apiConfig.tag.getList.permissionCode,
+        ],
+        children: [
+            {
+                label: <FormattedMessage defaultMessage="Nhãn" />,
+                key: 'tag',
+                path: '/tags',
+                permission: [apiConfig.tag.getList.permissionCode],
+            },
+            {
+                label: <FormattedMessage defaultMessage="Nation" />,
+                key: 'nation',
+                path: '/nations',
+                permission: [apiConfig.tag.getList.permissionCode],
             },
         ],
     },

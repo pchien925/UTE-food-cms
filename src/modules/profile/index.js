@@ -22,7 +22,7 @@ const ProfilePage = () => {
     const { execute: executeGetProfile } = useFetchAction(accountActions.getProfile);
     const { mixinFuncs, onSave, setIsChangedFormValues, isEditing, setEditing } = useSaveBase({
         options: {
-            getListUrl: `/users`,
+            getListUrl: `/`,
             objectName: translate.formatMessage(message.objectName),
         },
         apiConfig: {

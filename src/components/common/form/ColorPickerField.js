@@ -1,9 +1,9 @@
+import { Form } from 'antd';
 import React, { useState } from 'react';
-import { Form, Input } from 'antd';
 import { SketchPicker } from 'react-color';
 
-import styles from './index.module.scss';
 import useFormField from '@hooks/useFormField';
+import styles from './ColorPickerField.module.scss';
 
 const ColorPickerField = ({
     label,

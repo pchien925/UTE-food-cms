@@ -20,8 +20,6 @@ window.Buffer = window.Buffer || Buffer;
 const message = defineMessages({
     copyRight: '{brandName} - © Copyright {year}. All Rights Reserved',
     loginFail: 'Sai tên đăng nhập hoặc mật khẩu !!!',
-    verifyFailOTP: 'Mã OTP không đúng!!!',
-    verifySuccessOTP: 'Xác thực OTP thành công!!!',
     loginNoAccess: 'Loại tài khoản không phù hợp!!!',
     username: 'Username',
     otp: 'OTP',
@@ -48,15 +46,18 @@ const LoginPage = () => {
                 handleLoginSuccess(res);
             },
             onError: (err) => {
+                form.setFieldsValue({
+                    username: "",
+                    password: "",
+                });
                 showErrorMessage(translate.formatMessage(message.loginFail));
             },
         });
     };
 
     const handleLoginSuccess = (res) => {
-        console.log('res',res);
-        setCacheAccessToken(res.data?.accessToken);
-        // setData(storageKeys.USER_KIND, res.user_kind);
+        setCacheAccessToken(res.data?.access_token);
+        setData(storageKeys.USER_KIND, res.data?.user_kind);
         executeGetProfile();
     };
 
@@ -113,7 +114,6 @@ const LoginPage = () => {
                                 },
                             ]}
                         />
-
                         <Button
                             type="primary"
                             size="large"

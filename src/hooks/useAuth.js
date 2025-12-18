@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 
-import accountSelectors from '@selectors/account';
-import useFetchAction from './useFetchAction';
-import { accountActions } from '@store/actions';
-import useActionLoading from './useActionLoading';
-import { getCacheAccessToken } from '@services/userService';
 import { storageKeys, UserTypes } from '@constants';
-import { useCallback } from 'react';
+import accountSelectors from '@selectors/account';
+import { getCacheAccessToken, removeCacheToken } from '@services/userService';
+import { accountActions } from '@store/actions';
 import { removeItem } from '@utils/localStorage';
+import { useCallback } from 'react';
+import useActionLoading from './useActionLoading';
+import useFetchAction from './useFetchAction';
 
 const useAuth = () => {
     const profile = useSelector(accountSelectors.selectProfile);
@@ -22,7 +22,7 @@ const useAuth = () => {
                 if (err?.response?.data?.result === false) {
                     const errCode = err?.response?.data?.code;
                     if (errCode === 'ERROR') {
-                        removeItem(storageKeys.USER_ACCESS_TOKEN);
+                        removeCacheToken();
                         removeItem(storageKeys.USER_KIND);
                     }
                 }
@@ -35,7 +35,7 @@ const useAuth = () => {
     const permissions = profile?.group?.permissions?.map((permission) => permission.action);
     // console.log('permission',permissions);
 
-    const permissionCodes = (profile?.permissions || profile?.group?.permissions)?.map((permission) => {
+    const permissionCodes = (profile?.group?.permissions)?.map((permission) => {
         return typeof permission === 'object' ? permission.permissionCode : permission;
     });
     // console.log('PC',permissionCodes);

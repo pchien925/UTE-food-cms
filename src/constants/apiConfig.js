@@ -313,6 +313,80 @@ const apiConfig = {
             permissionCode: 'MAG_RES',
         },
     },
+    tag: {
+        getList: {
+            baseURL: `${apiUrl}api/tag/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'TAG_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/tag/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'TAG_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/tag/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'TAG_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/tag/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'TAG_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/tag/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'TAG_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/tag/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
+    nation: {
+        getList: {
+            baseURL: `${apiUrl}api/nation/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'TAG_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/nation/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'TAG_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/nation/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'TAG_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/nation/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'TAG_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/nation/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'TAG_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/nation/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
 };
 
 export default apiConfig;

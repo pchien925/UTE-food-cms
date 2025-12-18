@@ -2,7 +2,6 @@ import { commonMessage } from '@locales/intl';
 
 export const apiUrl = process.env.REACT_APP_API;
 export const enableExposure = process.env.REACT_APP_ENABLE_EXPOSURE === 'true';
-export const urlVariable = '{URL}';
 
 export const ADMIN_LOGIN_TYPE = 'password';
 
@@ -12,9 +11,9 @@ export const fixedPath = {
     aboutUs: `${apiUrl}${process.env.REACT_APP_ABOUT_US_PATH}`,
 };
 
-export const brandName = 'iTZ Media Bucket System';
+export const brandName = 'UTE Food System';
 
-export const appName = 'bucket-media-cms';
+export const appName = 'ute-food-cms';
 
 export const storageKeys = {
     USER_ACCESS_TOKEN: `${appName}-user-access-token`,
@@ -143,9 +142,9 @@ export const isSystemSettingOptions = [
     { label: commonMessage.hideSystemSettings, value: 0 },
 ];
 
-export const PROVINCE_KIND = 1;
+export const PROVINCE_KIND = 3;
 export const DISTRICT_KIND = 2;
-export const WARD_KIND = 3;
+export const WARD_KIND = 1;
 
 export const SettingTypes = {
     Money: 'Money',
