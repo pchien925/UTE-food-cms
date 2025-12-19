@@ -23,8 +23,8 @@ export const storageKeys = {
 
 export const AppConstants = {
     apiRootUrl: process.env.REACT_APP_API,
-    contentRootUrl: `${process.env.REACT_APP_API}v1/file/download`,
-    avatarRootUrl: `${process.env.REACT_APP_API}v1/file/download`,
+    contentRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
+    avatarRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
     mediaRootUrl: `${process.env.REACT_APP_API}`,
     langKey: 'vi',
 };

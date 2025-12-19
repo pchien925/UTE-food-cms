@@ -130,7 +130,9 @@ const GroupPermissionListPage = () => {
                         loading={loading}
                         rowKey={(record) => record.id}
                         pagination={pagination}
-                        locale={{ emptyText: <Empty description={translate.formatMessage(commonMessage.noData)} /> }}
+                        locale={{
+                            emptyText: <Empty description={translate.formatMessage(commonMessage.noData)} />,
+                        }}
                     />
                 }
             />

@@ -27,7 +27,7 @@ const ColorPickerField = ({
     );
 };
 
-function SketchPickerWrapper({ value = '#fff', onChange, onOpen, onClose, width, height, ...props }) {
+function SketchPickerWrapper({ value = '#525252ff', onChange, onOpen, onClose, width, height, ...props }) {
     const [ displayColorPicker, setDisplayColorPicker ] = useState(false);
 
     const onOpenPopover = () => {

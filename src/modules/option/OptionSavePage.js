@@ -1,22 +1,20 @@
 import PageWrapper from '@components/common/layout/PageWrapper';
 import apiConfig from '@constants/apiConfig';
-import useQueryParams from '@hooks/useQueryParams';
 import useSaveBase from '@hooks/useSaveBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
+import { showErrorMessage } from '@services/notifyService';
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import NationForm from './NationForm';
+import OptionForm from './OptionForm';
 
-const NationSavePage = ({ pageOptions }) => {
+const OptionSavePage = ({ pageOptions }) => {
     const translate = useTranslate();
     const { id } = useParams();
     const location = useLocation();
     const search = location.search;
-    const { params } = useQueryParams();
-    const parentId = params.get('parentId');
-    const { detail, mixinFuncs, loading, onSave, setIsChangedFormValues, isEditing, title } = useSaveBase({
-        apiConfig: apiConfig.nation,
+    const { detail, mixinFuncs, loading, onSave, setIsChangedFormValues, isEditing, title, setSubmit } = useSaveBase({
+        apiConfig: apiConfig.option,
         options: {
             getListUrl: pageOptions.listPageUrl + `${search}`,
             objectName: translate.formatMessage(pageOptions.objectName),
@@ -31,7 +29,6 @@ const NationSavePage = ({ pageOptions }) => {
             funcs.prepareCreateData = (data) => {
                 return {
                     ...data,
-                    parentId,
                 };
             };
             funcs.mappingData = (data) => {
@@ -39,22 +36,30 @@ const NationSavePage = ({ pageOptions }) => {
                     ...data.data,
                 };
             };
+            funcs.onSaveError = (err) => {
+                const errorCode = err?.response?.data?.code;
+                if (errorCode === 'ERROR-OPTION-0001') {
+                    showErrorMessage("Lựa chọn đã tồn tại!");
+                } else {
+                    showErrorMessage('Có lỗi xảy ra, vui lòng thử lại sau!');
+                }
+                setSubmit(false);
+            };
         },
     });
 
     return (
         <PageWrapper loading={loading} routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search })}>
-            <NationForm
+            <OptionForm
                 setIsChangedFormValues={setIsChangedFormValues}
                 dataDetail={detail ? detail : {}}
                 formId={mixinFuncs.getFormId()}
                 isEditing={isEditing}
                 actions={mixinFuncs.renderActions()}
                 onSubmit={onSave}
-                objectName={pageOptions.objectName}
             />
         </PageWrapper>
     );
 };
 
-export default NationSavePage;
+export default OptionSavePage;

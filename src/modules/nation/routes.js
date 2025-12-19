@@ -1,63 +1,59 @@
+import { DISTRICT_KIND, PROVINCE_KIND, WARD_KIND } from '@constants';
 import apiConfig from '@constants/apiConfig';
-import NationListPage from '.';
-import NationSavePage from './NationSavePage';
-import DistrictListPage from './district';
-import DistrictSavePage from './district/DistrictSavePage';
-import VillageListPage from './village';
-import VillageSavePage from './village/VillageSavePage';
 import { commonMessage } from '@locales/intl';
+import NationListPage from '.';
 const paths = {
-    provincesListPage: '/provinces',
-    provincesSavePage: '/provinces/:id',
+    provinceListPage: '/provinces',
+    districtListPage: '/provinces/:provinceId/districts',
+    wardListPage: '/provinces/:provinceId/districts/:districtId/wards',
 };
 
 export default {
     provinceListPage: {
-        path: paths.provincesListPage,
+        path: paths.provinceListPage,
         auth: true,
         component: NationListPage,
         permission: [apiConfig.nation.getList.permissionCode],
         pageOptions: {
+            kind: PROVINCE_KIND,
             objectName: commonMessage.province,
             renderBreadcrumbs: (messages, t, title, options = {}) => {
                 return [{ breadcrumbName: t.formatMessage(messages.province) }];
             },
         },
     },
-    nationListPage: {
-        path: '/nations',
-        title: 'Nation',
+    districtListPage: {
+        path: paths.districtListPage,
         auth: true,
         component: NationListPage,
+        permission: [apiConfig.nation.getList.permissionCode],
+        pageOptions: {
+            kind: DISTRICT_KIND,
+            objectName: commonMessage.district,
+            renderBreadcrumbs: (messages, t, title, options = {}) => {
+                return [
+                    { breadcrumbName: t.formatMessage(messages.province), path: paths.provinceListPage },
+                    { breadcrumbName: t.formatMessage(messages.district) },
+                ];
+            },
+        },
     },
-    nationSavePage: {
-        path: '/nation/:id',
-        title: 'Nation Save Page',
+    wardListPage: {
+        path: paths.wardListPage,
         auth: true,
-        component: NationSavePage,
-    },
-    districtListPage: {
-        path: '/nations/districts',
-        title: 'District List page',
-        auth: true,
-        component: DistrictListPage,
-    },
-    districtSavePage: {
-        path: '/nations/districts/:id',
-        title: 'District Save Page',
-        auth: true,
-        component: DistrictSavePage,
-    },
-    villagetListPage: {
-        path: '/nations/districts/village',
-        title: 'District List page',
-        auth: true,
-        component: VillageListPage,
-    },
-    villageSavePage: {
-        path: '/nations/districts/villages/:id',
-        title: 'District Save Page',
-        auth: true,
-        component: VillageSavePage,
+        component: NationListPage,
+        permission: [apiConfig.nation.getList.permissionCode],
+        pageOptions: {
+            kind: WARD_KIND,
+            objectName: commonMessage.ward,
+            renderBreadcrumbs: (messages, t, title, options = {}) => {
+                const { provinceId } = options;
+                return [
+                    { breadcrumbName: t.formatMessage(messages.province), path: paths.provinceListPage },
+                    { breadcrumbName: t.formatMessage(messages.district), path: paths.districtListPage.replace(':provinceId', provinceId) + `?provinceId=${provinceId}` },
+                    { breadcrumbName: t.formatMessage(messages.ward) },
+                ];
+            },
+        },
     },
 };

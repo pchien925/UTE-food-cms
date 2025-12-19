@@ -1,7 +1,6 @@
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { GROUP_KIND_ADMIN, STATUS_ACTIVE, UserTypes } from '@constants';
+import { STATUS_ACTIVE } from '@constants';
 import apiConfig from '@constants/apiConfig';
-import useFetch from '@hooks/useFetch';
 import useSaveBase from '@hooks/useSaveBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';

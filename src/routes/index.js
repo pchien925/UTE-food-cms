@@ -8,6 +8,7 @@ import ProfilePage from '@modules/profile/index';
 import adminsRoutes from '@modules/user/routes';
 import tagsRoutes from '@modules/tag/routes';
 import nationsRoutes from '@modules/nation/routes';
+import optionsRoutes from '@modules/option/routes';
 /*
 	auth
 		+ null: access login and not login
@@ -56,6 +57,7 @@ const routes = {
     ...adminsRoutes,
     ...tagsRoutes,
     ...nationsRoutes,
+    ...optionsRoutes,
     // keep this at last
     notFound: {
         component: PageNotFound,

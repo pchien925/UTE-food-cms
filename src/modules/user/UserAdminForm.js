@@ -81,7 +81,6 @@ const UserAdminForm = (props) => {
                             imageUrl={imageUrl ? `${AppConstants.avatarRootUrl}${imageUrl}` : DefaultAvatar}
                             aspect={1 / 1}
                             uploadFile={uploadFile}
-                            disabled
                         />
                     </Col>
                 </Row>
@@ -168,6 +167,7 @@ const UserAdminForm = (props) => {
                             allowClear={false}
                             disabled={!isEditing}
                             options={statusValue}
+                            required
                         />
                     </Col>
                 </Row>

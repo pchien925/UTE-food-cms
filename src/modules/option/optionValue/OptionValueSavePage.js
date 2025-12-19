@@ -1,24 +1,22 @@
 import PageWrapper from '@components/common/layout/PageWrapper';
 import apiConfig from '@constants/apiConfig';
-import useQueryParams from '@hooks/useQueryParams';
 import useSaveBase from '@hooks/useSaveBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
+import { showErrorMessage } from '@services/notifyService';
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import NationForm from './NationForm';
+import OptionValueForm from './OptionValueForm';
 
-const NationSavePage = ({ pageOptions }) => {
+const OptionValueSavePage = ({ pageOptions }) => {
     const translate = useTranslate();
-    const { id } = useParams();
+    const { id, optionId } = useParams();
     const location = useLocation();
     const search = location.search;
-    const { params } = useQueryParams();
-    const parentId = params.get('parentId');
-    const { detail, mixinFuncs, loading, onSave, setIsChangedFormValues, isEditing, title } = useSaveBase({
-        apiConfig: apiConfig.nation,
+    const { detail, mixinFuncs, loading, onSave, setIsChangedFormValues, isEditing, title, setSubmit } = useSaveBase({
+        apiConfig: apiConfig.optionValue,
         options: {
-            getListUrl: pageOptions.listPageUrl + `${search}`,
+            getListUrl: pageOptions.listPageUrl.replace(':optionId', optionId) + `${search}`,
             objectName: translate.formatMessage(pageOptions.objectName),
         },
         override: (funcs) => {
@@ -26,12 +24,13 @@ const NationSavePage = ({ pageOptions }) => {
                 return {
                     ...data,
                     id: id,
+                    optionId: optionId,
                 };
             };
             funcs.prepareCreateData = (data) => {
                 return {
                     ...data,
-                    parentId,
+                    optionId: optionId,
                 };
             };
             funcs.mappingData = (data) => {
@@ -39,22 +38,30 @@ const NationSavePage = ({ pageOptions }) => {
                     ...data.data,
                 };
             };
+            funcs.onSaveError = (err) => {
+                const errorCode = err?.response?.data?.code;
+                if (errorCode === 'ERROR-OPTION-VALUE-0001') {
+                    showErrorMessage("Giá trị đã tồn tại!");
+                } else {
+                    showErrorMessage('Có lỗi xảy ra, vui lòng thử lại sau!');
+                }
+                setSubmit(false);
+            };
         },
     });
 
     return (
-        <PageWrapper loading={loading} routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search })}>
-            <NationForm
+        <PageWrapper loading={loading} routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search, optionId })}>
+            <OptionValueForm
                 setIsChangedFormValues={setIsChangedFormValues}
                 dataDetail={detail ? detail : {}}
                 formId={mixinFuncs.getFormId()}
                 isEditing={isEditing}
                 actions={mixinFuncs.renderActions()}
                 onSubmit={onSave}
-                objectName={pageOptions.objectName}
             />
         </PageWrapper>
     );
 };
 
-export default NationSavePage;
+export default OptionValueSavePage;

@@ -14,8 +14,8 @@ import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { showErrorMessage, showSuccessMessage } from '@services/notifyService';
 import { orderNumber } from '@utils';
-import { Button, Empty } from 'antd';
-import TagModal from './TagModal';
+import { Button, Empty, Tag } from 'antd';
+import TagSaveModal from './TagSaveModal';
 
 
 const TagListPage = ({ pageOptions }) => {
@@ -46,14 +46,13 @@ const TagListPage = ({ pageOptions }) => {
                 mixinFuncs.handleFetchList({ ...params });
             };
             funcs.additionalActionColumnButtons = () => ({
-                edit: ({ buttonProps, ...dataRow }) => {
+                edit: (record) => {
                     return (
                         <BaseTooltip type="edit" objectName={translate.formatMessage(pageOptions.objectName)}>
                             <Button
-                                {...buttonProps}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    handleEdit(dataRow);
+                                    handleEdit(record);
                                 }}
                                 type="link"
                                 style={{ padding: 0 }}
@@ -75,25 +74,21 @@ const TagListPage = ({ pageOptions }) => {
             render: (text, record, index) => {
                 return orderNumber(pagination, index);
             },
-            width: 60,
+            width: 70,
         },
         { title: translate.formatMessage(commonMessage.tagName), dataIndex: 'name' },
         {
             title: translate.formatMessage(commonMessage.tagColor),
             dataIndex: 'color',
-            width: 140,
+            width: 180,
             align: 'center',
-            render: (color) => (
-            <span
-                style={{
-                    display: 'inline-block',
-                    width: 36,
-                    height: 18,
-                    backgroundColor: color,
-                    border: '1px solid #d9d9d9',
-                }}
-            />
-        ),
+            render(dataRow) {
+                return (
+                    <Tag style={{ textAlign: 'center' }} color={dataRow}>
+                        {dataRow}
+                    </Tag>
+                );
+            },
         },
         mixinFuncs.renderActionColumn(
             {
@@ -175,7 +170,7 @@ const TagListPage = ({ pageOptions }) => {
                     />
                 }
             />
-            <TagModal
+            <TagSaveModal
                 open={opened}
                 close={close}
                 dataDetail={selectedTag}

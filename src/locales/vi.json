@@ -20,7 +20,7 @@
     "constants.intl.commonLabel.videos": "Video",
     "constants.intl.commonLabel.welcomeUser": "Chào mừng, {user}",
     "constants.masterData.statusActive": "Hoạt động",
-    "constants.masterData.statusInactive": "Không hoạt động",
+    "constants.masterData.statusInactive": "Khóa",
     "constants.masterData.statusPending": "Đang chờ",
     "constants.menuConfig.189423263": "Danh sách tin tức",
     "constants.menuConfig.3368094343": "Quyền",

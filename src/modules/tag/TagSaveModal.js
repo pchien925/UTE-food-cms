@@ -2,12 +2,12 @@ import TagForm from '@modules/tag/TagForm';
 import { Modal } from 'antd';
 import React from 'react';
 
-const TagModal = ({ open, close, dataDetail, isEditing, onSubmit, isSubmitting }) => {
+const TagSaveModal = ({ open, close, dataDetail, isEditing, onSubmit, isSubmitting }) => {
     return (
         <Modal
             open={open}
             onCancel={close}
-            title={isEditing ? 'Chỉnh sửa dự án' : 'Thêm mới dự án'}
+            title={isEditing ? 'Chỉnh sửa nhãn' : 'Thêm mới nhãn'}
             footer={null}
             destroyOnHidden
             maskClosable={false}
@@ -25,4 +25,4 @@ const TagModal = ({ open, close, dataDetail, isEditing, onSubmit, isSubmitting }
     );
 };
 
-export default TagModal;
+export default TagSaveModal;

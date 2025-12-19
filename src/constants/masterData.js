@@ -34,7 +34,7 @@ const commonMessage = defineMessages({
     statusActive: 'Hoạt động',
     statusLock: 'Khóa',
     statusPending: 'Đang chờ',
-    statusInactive: 'Không hoạt động',
+    statusInactive: 'Khóa',
     statusDelete: 'Đã xóa',
     income: 'Thu',
     expenditure: 'Chi',
@@ -77,6 +77,17 @@ export const statusOptions = [
     { value: STATUS_PENDING, label: commonMessage.statusPending, color: '#FFBF00' },
     { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
     { value: STATUS_DELETE, label: commonMessage.statusDelete, color: '#CC0000' },
+];
+
+export const foodOptions = [
+    { value: STATUS_ACTIVE, label: commonMessage.statusActive, color: '#00A648' },
+    { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
+    { value: STATUS_DELETE, label: commonMessage.statusDelete, color: '#CC0000' },
+];
+
+export const foodFormOptions = [
+    { value: STATUS_ACTIVE, label: commonMessage.statusActive, color: '#00A648' },
+    { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
 ];
 
 export const formSize = {

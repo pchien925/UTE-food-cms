@@ -1,29 +1,23 @@
-import { Card, Col, Form, Row, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
-import useBasicForm from '@hooks/useBasicForm';
-import TextField from '@components/common/form/TextField';
-import SelectField from '@components/common/form/SelectField';
-import useTranslate from '@hooks/useTranslate';
-import { nationKindOptions, statusOptions } from '@constants/masterData';
-import { FormattedMessage } from 'react-intl';
+import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { BaseForm } from '@components/common/form/BaseForm';
+import TextField from '@components/common/form/TextField';
+import useBasicForm from '@hooks/useBasicForm';
+import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
+import { Button, Col, Modal, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-const NationForm = ({ formId, actions, dataDetail, onSubmit, setIsChangedFormValues, isEditing }) => {
+const NationForm = (props) => {
     const translate = useTranslate();
-    const nationValues = translate.formatKeys(nationKindOptions, ['label']);
-    const statusValues = translate.formatKeys(statusOptions, ['label']);
-
+    const {  formId, dataDetail, onSubmit, isEditing, onCancel, isSubmitting, objectName } = props;
+    const [isChangedFormValues, setIsChangedFormValues] = useState(false);
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
         onSubmit,
         setIsChangedFormValues,
     });
 
     const handleSubmit = (values) => {
-        return mixinFuncs.handleSubmit({
-            ...values,
-            kind: 1,
-        });
+        return mixinFuncs.handleSubmit({ ...values });
     };
 
     useEffect(() => {
@@ -32,38 +26,68 @@ const NationForm = ({ formId, actions, dataDetail, onSubmit, setIsChangedFormVal
         });
     }, [dataDetail]);
 
-    useEffect(() => {
-        if (!isEditing) {
-            form.setFieldsValue({
-                status: statusValues[0].value,
-                kind: nationValues[0].value,
-            });
-        }
-    }, [isEditing]);
-
     return (
-        <BaseForm id={formId} onFinish={handleSubmit} form={form} onValuesChange={onValuesChange}>
-            <Card className="card-form" bordered={false}>
-                <Row gutter={10}>
-                    <Col span={12}>
-                        <TextField required label={translate.formatMessage(commonMessage.Province)} name="name" />
+        <BaseForm id={formId} onFinish={handleSubmit} form={form} onValuesChange={onValuesChange} style={{ width: '100%', marginTop: 24 }}>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <TextField
+                        label={objectName}
+                        name="name"
+                        required
+                    />
+                </Col>
+                <Col span={12}>
+                    <TextField
+                        label={translate.formatMessage(commonMessage.postCode)}
+                        name="postalCode"
+                        required
+                        type="number"
+                    />
+                </Col>
+            </Row>
+            <div className="footer-card-form">
+                <Row justify="end" gutter={12}>
+                    <Col>
+                        <Button
+                            danger
+                            key="cancel"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (isChangedFormValues) {
+                                    Modal.confirm({
+                                        title: 'Xác nhận hủy',
+                                        content: 'Bạn có chắc chắn muốn hủy không?',
+                                        cancelButtonProps: { danger: true },
+                                        onOk: () => {
+                                            setIsChangedFormValues(false);
+                                            onCancel();
+                                        },
+                                        okText: 'Có',
+                                        cancelText: 'Không',
+                                    });
+                                } else {
+                                    onCancel();
+                                }
+                            }}
+                            icon={<StopOutlined />}
+                        >
+                            Hủy
+                        </Button>
                     </Col>
-                    <Col span={12}>
-                        <TextField required label={<FormattedMessage defaultMessage="PostCode" />} name="postCode" />
+                    <Col>
+                        <Button
+                            key="submit"
+                            htmlType="submit"
+                            type="primary"
+                            loading={isSubmitting}
+                            disabled={!isChangedFormValues}
+                            icon={<SaveOutlined />}
+                        >
+                            {isEditing ? 'Cập nhật' : 'Thêm'}
+                        </Button>
                     </Col>
                 </Row>
-                <Row gutter={10}>
-                    <Col span={12}>
-                        <SelectField
-                            required
-                            label={translate.formatMessage(commonMessage.status)}
-                            name="status"
-                            options={statusValues}
-                        />
-                    </Col>
-                </Row>
-                <div className="footer-card-form">{actions}</div>
-            </Card>
+            </div>
         </BaseForm>
     );
 };

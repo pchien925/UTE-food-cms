@@ -1,4 +1,4 @@
-import { SettingOutlined, UsergroupAddOutlined, InboxOutlined } from '@ant-design/icons';
+import { SettingOutlined, UsergroupAddOutlined, InboxOutlined, CoffeeOutlined } from '@ant-design/icons';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import apiConfig from './apiConfig';
@@ -34,12 +34,22 @@ export const navMenuConfig = [
         ],
     },
     {
+        label: <FormattedMessage defaultMessage="Quản lý món ăn" />,
+        key: 'food-management',
+        icon: <CoffeeOutlined />,
+        children: [
+            {
+                label: <FormattedMessage defaultMessage="Lựa chọn" />,
+                key: 'options',
+                path: '/options',
+                permission: [apiConfig.option.getList.permissionCode],
+            },
+        ],
+    },
+    {
         label: <FormattedMessage defaultMessage="Quản lý danh mục" />,
         key: 'category-management',
         icon: <InboxOutlined />,
-        permission: [
-            apiConfig.tag.getList.permissionCode,
-        ],
         children: [
             {
                 label: <FormattedMessage defaultMessage="Nhãn" />,
@@ -48,9 +58,9 @@ export const navMenuConfig = [
                 permission: [apiConfig.tag.getList.permissionCode],
             },
             {
-                label: <FormattedMessage defaultMessage="Nation" />,
-                key: 'nation',
-                path: '/nations',
+                label: <FormattedMessage defaultMessage="Tỉnh" />,
+                key: 'provinces',
+                path: '/provinces',
                 permission: [apiConfig.tag.getList.permissionCode],
             },
         ],

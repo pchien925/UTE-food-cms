@@ -1,25 +1,26 @@
 import BaseTable from '@components/common/table/BaseTable';
 import apiConfig from '@constants/apiConfig';
 import useListBase from '@hooks/useListBase';
-import { Button, Tag } from 'antd';
+import { Button, Empty, Tag } from 'antd';
 import React from 'react';
 
-import { DeleteOutlined, UserOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UserOutlined, EditOutlined } from '@ant-design/icons';
 import AvatarField from '@components/common/form/AvatarField';
 import { BaseTooltip } from '@components/common/form/BaseTooltip';
 import TextField from '@components/common/form/TextField';
 import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { AppConstants, DEFAULT_TABLE_ITEM_SIZE } from '@constants';
+import { AppConstants, DEFAULT_TABLE_ITEM_SIZE, STATUS_DELETE } from '@constants';
 import { FieldTypes } from '@constants/formConfig';
 import { statusOptions, userKindOption } from '@constants/masterData';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const UserAdminListPage = ({ pageOptions }) => {
     const translate = useTranslate();
     const location = useLocation();
+    const navigate = useNavigate();
     const { pathname: pagePath } = useLocation();
     const search = location.search;
     const statusValue = translate.formatKeys(statusOptions, ['label']);
@@ -58,20 +59,42 @@ const UserAdminListPage = ({ pageOptions }) => {
                 mixinFuncs.handleFetchList({ ...params, kind: kind });
             };
             funcs.additionalActionColumnButtons = () => ({
+                edit: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
+                    const hasPerm = mixinFuncs.hasPermission([apiConfig.account.update.permissionCode]);
+                    return (
+                        <BaseTooltip type="edit" objectName={translate.formatMessage(pageOptions.objectName)}>
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(mixinFuncs.getItemDetailLink(record), {
+                                        state: { action: 'edit', prevPath: location.pathname },
+                                    });
+                                }}
+                                type="link"
+                                style={{ padding: 0 }}
+                                disabled={!hasPerm || isDelete}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
                 delete: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
                     const hasPerm = mixinFuncs.hasPermission([apiConfig.account.delete.permissionCode]);
                     return (
-                        <BaseTooltip type="delete" objectName={'Người dùng'}>
+                        <BaseTooltip type="delete" objectName={translate.formatMessage(pageOptions.objectName)}>
                             <Button
                                 type="link"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     mixinFuncs.showDeleteItemConfirm(record.id);
                                 }}
-                                disabled={!hasPerm || record?.isSuperAdmin}
+                                disabled={!hasPerm || record?.isSuperAdmin || isDelete}
                                 style={{ padding: 0 }}
                             >
-                                <DeleteOutlined style={{ color: (!hasPerm || record?.isSuperAdmin) ? '' : 'red' }}/>
+                                <DeleteOutlined style={{ color: (!hasPerm || record?.isSuperAdmin || isDelete) ? '' : 'red' }}/>
                             </Button>
                         </BaseTooltip>
                     );
@@ -135,7 +158,7 @@ const UserAdminListPage = ({ pageOptions }) => {
                 edit: true,
                 delete: true,
             },
-            { width: '150px' },
+            { width: 160 },
         ),
     ];
 
@@ -176,6 +199,9 @@ const UserAdminListPage = ({ pageOptions }) => {
                         loading={loading}
                         rowKey={(record) => record.id}
                         pagination={pagination}
+                        locale={{
+                            emptyText: <Empty description={translate.formatMessage(commonMessage.noData)} />,
+                        }}
                     />
                 }
             />
