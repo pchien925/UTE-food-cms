@@ -150,4 +150,8 @@ export const commonMessage = defineMessages({
     optionValue: 'Giá trị',
     optionValueName: 'Tên giá trị',
     extraPrice: 'Giá cộng thêm',
+    food: 'Đồ ăn',
+    foodName: 'Tên đồ ăn',
+    basePrice: 'Giá gốc',
+    cookingTime: 'Thời gian nấu',
 });

@@ -461,6 +461,43 @@ const apiConfig = {
             headers: baseHeader,
         },
     },
+    food: {
+        getList: {
+            baseURL: `${apiUrl}api/food/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'FOOD_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/food/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'FOOD_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/food/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'FOOD_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/food/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'FOOD_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/food/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'FOOD_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/food/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
 };
 
 export default apiConfig;

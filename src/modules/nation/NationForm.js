@@ -1,6 +1,7 @@
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { BaseForm } from '@components/common/form/BaseForm';
 import TextField from '@components/common/form/TextField';
+import { PROVINCE_KIND } from '@constants';
 import useBasicForm from '@hooks/useBasicForm';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 
 const NationForm = (props) => {
     const translate = useTranslate();
-    const {  formId, dataDetail, onSubmit, isEditing, onCancel, isSubmitting, objectName } = props;
+    const {  formId, dataDetail, onSubmit, isEditing, onCancel, isSubmitting, objectName, kind } = props;
     const [isChangedFormValues, setIsChangedFormValues] = useState(false);
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
         onSubmit,
@@ -29,21 +30,25 @@ const NationForm = (props) => {
     return (
         <BaseForm id={formId} onFinish={handleSubmit} form={form} onValuesChange={onValuesChange} style={{ width: '100%', marginTop: 24 }}>
             <Row gutter={16}>
-                <Col span={12}>
+                <Col span={24}>
                     <TextField
                         label={objectName}
                         name="name"
                         required
                     />
                 </Col>
-                <Col span={12}>
-                    <TextField
-                        label={translate.formatMessage(commonMessage.postCode)}
-                        name="postalCode"
-                        required
-                        type="number"
-                    />
-                </Col>
+            </Row>
+            <Row gutter={16}>
+                {kind === PROVINCE_KIND && (
+                    <Col span={24}>
+                        <TextField
+                            label={translate.formatMessage(commonMessage.postCode)}
+                            name="postalCode"
+                            required
+                            type="number"
+                        />
+                    </Col>
+                )}
             </Row>
             <div className="footer-card-form">
                 <Row justify="end" gutter={12}>

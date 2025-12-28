@@ -9,6 +9,7 @@ import adminsRoutes from '@modules/user/routes';
 import tagsRoutes from '@modules/tag/routes';
 import nationsRoutes from '@modules/nation/routes';
 import optionsRoutes from '@modules/option/routes';
+import foodsRoutes from '@modules/food/routes';
 /*
 	auth
 		+ null: access login and not login
@@ -58,6 +59,7 @@ const routes = {
     ...tagsRoutes,
     ...nationsRoutes,
     ...optionsRoutes,
+    ...foodsRoutes,
     // keep this at last
     notFound: {
         component: PageNotFound,

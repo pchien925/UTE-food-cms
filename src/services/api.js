@@ -1,15 +1,11 @@
-import { storageKeys } from '@constants';
 import apiConfig from '@constants/apiConfig';
-import { removeItem } from '@utils/localStorage';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import {
     getCacheAccessToken,
-    getCacheUserEmail,
     getCacheRefreshToken,
     removeCacheToken,
-    setCacheToken,
 } from './userService';
-import { jwtDecode } from 'jwt-decode';
 
 // Handle refresh token
 const axiosInstance = axios.create();
@@ -73,7 +69,6 @@ const sendRequest = (options, payload, cancelToken) => {
     if (authorization) {
         headers.Authorization = authorization;
     }
-    headers['X-Client-Type'] = 'WEB';
     if (params.token) {
         headers.Authorization = `Bearer ${params.token}`;
         delete params.token;
@@ -129,3 +124,4 @@ const sendRequest = (options, payload, cancelToken) => {
 };
 
 export { sendRequest };
+

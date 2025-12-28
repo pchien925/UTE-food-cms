@@ -1,17 +1,17 @@
 import { ClearOutlined, SearchOutlined } from '@ant-design/icons';
 import { FieldTypes } from '@constants/formConfig';
 import { Button, Col, Flex, Form, Row } from 'antd';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import DatePickerField from './DatePickerField';
 import DateRangePickerField from './DateRangePickerField';
 import InputTextField from './InputTextField';
 import SelectField from './SelectField';
 
+import { DEFAULT_FORMAT } from '@constants';
 import dayjs from 'dayjs';
 import AutoCompleteField from './AutoCompleteField';
 import styles from './SearchForm.module.scss';
-import { DEFAULT_FORMAT } from '@constants';
 
 const disabledDate = (current) => {
     return current && current > dayjs().endOf('day');
@@ -45,7 +45,6 @@ function SearchForm({
 }) {
     const [form] = Form.useForm();
     const intl = useIntl();
-    const dateRangeKey = useRef({});
 
     const handleSearchSubmit = useCallback(
         (values) => {
@@ -88,6 +87,7 @@ function SearchForm({
                     {...props}
                     name={key}
                     fieldProps={{
+                        ...props.fieldProps,
                         style: { ...style, width: '100%', height: 32 },
                     }}
                     style={{ ...style, width: '100%', height: 32 }}
@@ -110,7 +110,6 @@ function SearchForm({
 
     useEffect(() => {
         const normalizeValues = { ...initialValues };
-
         const fieldMap = fields.reduce((acc, field) => {
             acc[field.key] = field;
             return acc;
@@ -118,13 +117,29 @@ function SearchForm({
         Object.keys(normalizeValues).forEach((key) => {
             const fieldInfo = fieldMap[key];
             const isNotAutocomplete = fieldInfo && fieldInfo.type !== FieldTypes.AUTOCOMPLETE;
-
+            const value = normalizeValues[key];
+            if (
+                fieldInfo?.type === FieldTypes.AUTOCOMPLETE &&
+                fieldInfo?.fieldProps?.mode === 'multiple'
+            ) {
+                if (typeof value === 'string') {
+                    normalizeValues[key] = value
+                        .split(',')
+                        .filter(Boolean);
+                }
+            }
             if (
                 isNotAutocomplete &&
                 !isNaN(normalizeValues[key]) &&
                 normalizeValues[key] !== null
             ) {
                 normalizeValues[key] = Number(normalizeValues[key]);
+            }
+            if (typeof value === 'string' && /^\d{2}\/\d{2}\/\d{4}/.test(value)) {
+                const parsed = dayjs(value, DEFAULT_FORMAT);
+                if (parsed.isValid()) {
+                    normalizeValues[key] = parsed;
+                }
             }
         });
         form.setFieldsValue(normalizeValues);

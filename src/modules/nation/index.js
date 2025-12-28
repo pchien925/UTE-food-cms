@@ -244,6 +244,7 @@ const NationListPage = ({ pageOptions }) => {
                 }
             />
             <NationSaveModal
+                kind={kind}
                 open={opened}
                 close={close}
                 dataDetail={selectedNation}

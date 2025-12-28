@@ -39,6 +39,12 @@ export const navMenuConfig = [
         icon: <CoffeeOutlined />,
         children: [
             {
+                label: <FormattedMessage defaultMessage="Đồ ăn" />,
+                key: 'foods',
+                path: '/foods',
+                permission: [apiConfig.food.getList.permissionCode],
+            },
+            {
                 label: <FormattedMessage defaultMessage="Lựa chọn" />,
                 key: 'options',
                 path: '/options',
