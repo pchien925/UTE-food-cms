@@ -6,7 +6,7 @@ export const commonMessage = defineMessages({
     managers: 'Manager',
     adminsLeader: 'Admins Leader',
     news: 'News',
-    category: 'Category',
+    category: 'Danh mục',
     newsCategory: 'News Category',
     transactionCategory: 'Transaction Category',
     previewFailed: 'Preview failed',
@@ -154,4 +154,6 @@ export const commonMessage = defineMessages({
     foodName: 'Tên đồ ăn',
     basePrice: 'Giá gốc',
     cookingTime: 'Thời gian nấu',
+    categoryName: 'Tên danh mục',
+    categoryDescription: 'Mô tả danh mục',
 });

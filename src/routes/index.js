@@ -10,6 +10,7 @@ import tagsRoutes from '@modules/tag/routes';
 import nationsRoutes from '@modules/nation/routes';
 import optionsRoutes from '@modules/option/routes';
 import foodsRoutes from '@modules/food/routes';
+import categoriesRoutes from '@modules/category/routes';
 /*
 	auth
 		+ null: access login and not login
@@ -60,6 +61,7 @@ const routes = {
     ...nationsRoutes,
     ...optionsRoutes,
     ...foodsRoutes,
+    ...categoriesRoutes,
     // keep this at last
     notFound: {
         component: PageNotFound,

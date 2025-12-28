@@ -58,6 +58,12 @@ export const navMenuConfig = [
         icon: <InboxOutlined />,
         children: [
             {
+                label: <FormattedMessage defaultMessage="Danh mục" />,
+                key: 'category',
+                path: '/categories',
+                permission: [apiConfig.category.getList.permissionCode],
+            },
+            {
                 label: <FormattedMessage defaultMessage="Nhãn" />,
                 key: 'tag',
                 path: '/tags',

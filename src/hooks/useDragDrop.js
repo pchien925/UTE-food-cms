@@ -38,6 +38,8 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
         return true;
     };
     const onDragEndDnd = ({ active, over }) => {
+        console.log({ active, over });
+        if (!over) return;
         if (active.id !== over?.id) {
             const isNew = active.id?.startsWith?.('temp-');
             setSortedData((prevState) => {
@@ -49,15 +51,16 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
                 if (isValid) {
                     handleUpdate(returnArray, isNew);
                 } else {
-                    showErrorMessage('Thứ tự không hợp lệ. Đảm bảo thời gian bắt đầu và kết thúc đúng.');
+                    showErrorMessage('Thứ tự không hợp lệ.');
                     return prevState;
                 }
 
                 return returnArray;
             });
-        }
+        } 
     };
     const handleUpdate = (data = [], isNew) => {
+        console.log('data', data);
         let dataUpdate = [];
         const sortList = data.length > 0 ? data : sortedData;
         sortList.map((item, index) => {

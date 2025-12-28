@@ -90,6 +90,11 @@ const FoodListPage = ({ pageOptions }) => {
                 );
             },
         },
+        {   
+            title: translate.formatMessage(commonMessage.category), 
+            dataIndex: ['category', 'name'], 
+            width: 180, 
+        },
         {
             title: translate.formatMessage(commonMessage.tag),
             dataIndex: 'tags',
@@ -145,6 +150,26 @@ const FoodListPage = ({ pageOptions }) => {
                 mode: 'multiple',
                 maxCount: 2,
                 maxTagCount: 'responsive',
+                notFoundContent: (
+                    <Empty
+                        style={{ width: '80%', height: '80%', margin: '0 auto' }}
+                        description={translate.formatMessage(commonMessage.noData)}
+                    />
+                ),
+            },
+        },
+        {
+            key: 'categoryId',
+            placeholder: translate.formatMessage(commonMessage.category),
+            type: FieldTypes.AUTOCOMPLETE,
+            apiConfig: apiConfig.category.autoComplete,
+            mappingOptions: (item) => ({
+                value: item.id,
+                label: item.name,
+            }),
+            searchParams: (text) => ({ name: text }),
+            submitOnChanged: true,
+            fieldProps: {
                 notFoundContent: (
                     <Empty
                         style={{ width: '80%', height: '80%', margin: '0 auto' }}
