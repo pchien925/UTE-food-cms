@@ -8,9 +8,7 @@ export const navMenuConfig = [
         label: <FormattedMessage defaultMessage="Quản lý người dùng" />,
         key: 'user-management',
         icon: <UsergroupAddOutlined />,
-        permission: [
-            apiConfig.account.getList.permissionCode,
-        ],
+        permission: [apiConfig.account.getList.permissionCode],
         children: [
             {
                 label: <FormattedMessage defaultMessage="Quản trị viên" />,
@@ -43,6 +41,12 @@ export const navMenuConfig = [
                 key: 'foods',
                 path: '/foods',
                 permission: [apiConfig.food.getList.permissionCode],
+            },
+            {
+                label: <FormattedMessage defaultMessage="Combo" />,
+                key: 'combos',
+                path: '/combos',
+                permission: [apiConfig.combo.getList.permissionCode],
             },
             {
                 label: <FormattedMessage defaultMessage="Lựa chọn" />,
@@ -93,4 +97,3 @@ export const navMenuConfig = [
         ].filter(Boolean),
     },
 ];
-

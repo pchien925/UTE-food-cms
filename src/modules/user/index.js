@@ -4,18 +4,19 @@ import useListBase from '@hooks/useListBase';
 import { Button, Empty, Tag } from 'antd';
 import React from 'react';
 
-import { DeleteOutlined, UserOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UserOutlined, EditOutlined, FileTextOutlined } from '@ant-design/icons';
 import AvatarField from '@components/common/form/AvatarField';
 import { BaseTooltip } from '@components/common/form/BaseTooltip';
 import TextField from '@components/common/form/TextField';
 import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { AppConstants, DEFAULT_TABLE_ITEM_SIZE, STATUS_DELETE } from '@constants';
+import { AppConstants, DEFAULT_TABLE_ITEM_SIZE, KIND_CUSTOMER, STATUS_DELETE } from '@constants';
 import { FieldTypes } from '@constants/formConfig';
 import { statusOptions, userKindOption } from '@constants/masterData';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { useLocation, useNavigate } from 'react-router-dom';
+import routes from '@routes';
 
 const UserAdminListPage = ({ pageOptions }) => {
     const translate = useTranslate();
@@ -59,6 +60,25 @@ const UserAdminListPage = ({ pageOptions }) => {
                 mixinFuncs.handleFetchList({ ...params, kind: kind });
             };
             funcs.additionalActionColumnButtons = () => ({
+                viewAddress: (record) => {
+                    return (
+                        <BaseTooltip title={'Xem danh sách địa chỉ'}>
+                            <Button
+                                type="link"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(
+                                        routes.addressListPage.path.replace(':customerId', record?.id) +
+                                            `?customerId=${record?.id}`,
+                                    );
+                                }}
+                                style={{ padding: 0 }}
+                            >
+                                <FileTextOutlined />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
                 edit: (record) => {
                     const isDelete = record?.status === STATUS_DELETE;
                     const hasPerm = mixinFuncs.hasPermission([apiConfig.account.update.permissionCode]);
@@ -94,7 +114,9 @@ const UserAdminListPage = ({ pageOptions }) => {
                                 disabled={!hasPerm || record?.isSuperAdmin || isDelete}
                                 style={{ padding: 0 }}
                             >
-                                <DeleteOutlined style={{ color: (!hasPerm || record?.isSuperAdmin || isDelete) ? '' : 'red' }}/>
+                                <DeleteOutlined
+                                    style={{ color: !hasPerm || record?.isSuperAdmin || isDelete ? '' : 'red' }}
+                                />
                             </Button>
                         </BaseTooltip>
                     );
@@ -139,12 +161,15 @@ const UserAdminListPage = ({ pageOptions }) => {
                 const kind = userKindValues.find((item) => item.value == dataRow);
 
                 return kind ? (
-                    <Tag color={kind.color} style={{
-                        display: 'inline-block',
-                        width: '100%',
-                        textAlign: 'center',
-                        fontSize: 14,
-                    }}>
+                    <Tag
+                        color={kind.color}
+                        style={{
+                            display: 'inline-block',
+                            width: '100%',
+                            textAlign: 'center',
+                            fontSize: 14,
+                        }}
+                    >
                         {kind.label}
                     </Tag>
                 ) : (
@@ -155,6 +180,7 @@ const UserAdminListPage = ({ pageOptions }) => {
         mixinFuncs.renderStatusColumn({ width: 140 }),
         mixinFuncs.renderActionColumn(
             {
+                viewAddress: kind === KIND_CUSTOMER,
                 edit: true,
                 delete: true,
             },

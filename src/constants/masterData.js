@@ -90,6 +90,17 @@ export const foodFormOptions = [
     { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
 ];
 
+export const comboOptions = [
+    { value: STATUS_ACTIVE, label: commonMessage.statusActive, color: '#00A648' },
+    { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
+    { value: STATUS_DELETE, label: commonMessage.statusDelete, color: '#CC0000' },
+];
+
+export const comboFormOptions = [
+    { value: STATUS_ACTIVE, label: commonMessage.statusActive, color: '#00A648' },
+    { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
+];
+
 export const formSize = {
     small: '700px',
     normal: '800px',

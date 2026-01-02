@@ -10,6 +10,7 @@ import tagsRoutes from '@modules/tag/routes';
 import nationsRoutes from '@modules/nation/routes';
 import optionsRoutes from '@modules/option/routes';
 import foodsRoutes from '@modules/food/routes';
+import combosRoutes from '@modules/combo/routes';
 import categoriesRoutes from '@modules/category/routes';
 /*
 	auth
@@ -61,6 +62,7 @@ const routes = {
     ...nationsRoutes,
     ...optionsRoutes,
     ...foodsRoutes,
+    ...combosRoutes,
     ...categoriesRoutes,
     // keep this at last
     notFound: {

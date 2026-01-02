@@ -561,3 +561,21 @@ export const formatDateToEndOfDayTime = (date) => {
 export const renderImageUrl = (imageUrl) => {
     return imageUrl ? `${AppConstants.avatarRootUrl}${imageUrl}` : null;
 };
+
+export const checkPositiveNumber = (_, value) => {
+    if (value !== undefined && value !== null && value !== '') {
+        if (Number(value) < 0) {
+            return Promise.reject('Giá trị không được nhỏ hơn 0');
+        }
+    }
+    return Promise.resolve();
+};
+
+export const checkPrice = (_, value) => {
+    if (value !== undefined && value !== null && value !== '') {
+        if (Number(value) <= 0) {
+            return Promise.reject('Giá tiền phải lớn hơn 0');
+        }
+    }
+    return Promise.resolve();
+};

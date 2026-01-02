@@ -25,6 +25,8 @@ export const AppConstants = {
     apiRootUrl: process.env.REACT_APP_API,
     contentRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
     avatarRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
+    foodRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
+    comboRootUrl: `${process.env.REACT_APP_API}api/file/download/`,
     mediaRootUrl: `${process.env.REACT_APP_API}`,
     langKey: 'vi',
 };

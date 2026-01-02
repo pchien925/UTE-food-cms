@@ -461,6 +461,43 @@ const apiConfig = {
             headers: baseHeader,
         },
     },
+    address: {
+        getList: {
+            baseURL: `${apiUrl}api/address/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'ADD_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/address/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'ADD_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/address/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'ADD_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/address/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'ADD_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/address/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'ADD_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/address/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
     food: {
         getList: {
             baseURL: `${apiUrl}api/food/list`,
@@ -494,6 +531,43 @@ const apiConfig = {
         },
         autoComplete: {
             baseURL: `${apiUrl}api/food/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
+    combo: {
+        getList: {
+            baseURL: `${apiUrl}api/combo/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'COM_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/combo/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'COM_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/combo/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'COM_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/combo/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'COM_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/combo/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'COM_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/combo/auto-complete`,
             method: 'GET',
             headers: baseHeader,
         },
@@ -532,7 +606,7 @@ const apiConfig = {
         autoComplete: {
             baseURL: `${apiUrl}api/category/auto-complete`,
             method: 'GET',
-            headers: baseHeader,    
+            headers: baseHeader,
         },
         updateSort: {
             baseURL: `${apiUrl}api/category/update-sort`,
