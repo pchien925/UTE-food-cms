@@ -158,4 +158,7 @@ export const commonMessage = defineMessages({
     cookingTime: 'Thời gian nấu',
     categoryName: 'Tên danh mục',
     categoryDescription: 'Mô tả danh mục',
+    update: 'Cập nhật',
+    create: 'Thêm mới',
+    cancel: 'Hủy',
 });

@@ -1,20 +1,22 @@
 import BaseTable from '@components/common/table/BaseTable';
 import apiConfig from '@constants/apiConfig';
 import useListBase from '@hooks/useListBase';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { UserOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons';
 import AvatarField from '@components/common/form/AvatarField';
 import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { AppConstants, DEFAULT_TABLE_ITEM_SIZE } from '@constants';
+import { AppConstants, DEFAULT_TABLE_ITEM_SIZE, STATUS_DELETE } from '@constants';
 import { FieldTypes } from '@constants/formConfig';
 import { foodOptions } from '@constants/masterData';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { formatMoneyValue } from '@utils';
-import { Empty, Tag } from 'antd';
+import { Button, Empty, Tag } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BaseTooltip } from '@components/common/form/BaseTooltip';
+import FoodOptionModal from './FoodOptionModal';
 
 const FoodListPage = ({ pageOptions }) => {
     const translate = useTranslate();
@@ -23,6 +25,8 @@ const FoodListPage = ({ pageOptions }) => {
     const search = location.search;
     const statusValue = translate.formatKeys(foodOptions, ['label']);
     const navigate = useNavigate();
+    const [openOptionModal, setOpenOptionModal] = useState(false);
+    const [selectedFoodId, setSelectedFoodId] = useState(null);
 
     const { data, mixinFuncs, queryFilter, loading, pagination } = useListBase({
         apiConfig: apiConfig.food,
@@ -49,6 +53,67 @@ const FoodListPage = ({ pageOptions }) => {
                 const params = mixinFuncs.prepareGetListParams(queryFilter);
                 mixinFuncs.handleFetchList({ ...params });
             };
+            funcs.additionalActionColumnButtons = () => ({
+                viewOption: (record) => {
+                    return (
+                        <BaseTooltip title="Xem danh sách tùy chọn">
+                            <Button
+                                style={{ padding: 0 }}
+                                type="link"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedFoodId(record.id);
+                                    setOpenOptionModal(true);
+                                }}
+                            >
+                                <UnorderedListOutlined style={{ color: '#fa8c16' }} />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
+                edit: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
+                    const hasPerm = mixinFuncs.hasPermission([apiConfig.food.update.permissionCode]);
+                    return (
+                        <BaseTooltip>
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(mixinFuncs.getItemDetailLink(record), {
+                                        state: { action: 'edit', prevPath: location.pathname },
+                                    });
+                                }}
+                                type="link"
+                                style={{ padding: 0 }}
+                                disabled={!hasPerm || isDelete}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
+                delete: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
+                    const hasPerm = mixinFuncs.hasPermission([apiConfig.food.delete.permissionCode]);
+                    return (
+                        <BaseTooltip>
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    mixinFuncs.showDeleteItemConfirm(record?.id);
+                                }}
+                                type="link"
+                                style={{ padding: 0 }}
+                                disabled={!hasPerm || record?.isSuperAdmin || isDelete}
+                            >
+                                <DeleteOutlined
+                                    style={{ color: !hasPerm || record?.isSuperAdmin || isDelete ? '' : 'red' }}
+                                />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
+            });
         },
     });
     const columns = [
@@ -68,32 +133,28 @@ const FoodListPage = ({ pageOptions }) => {
             },
         },
         { title: translate.formatMessage(commonMessage.foodName), dataIndex: 'name' },
-        { 
-            title: translate.formatMessage(commonMessage.basePrice), 
-            dataIndex: 'basePrice', 
-            width: 140, 
+        {
+            title: translate.formatMessage(commonMessage.basePrice),
+            dataIndex: 'basePrice',
+            width: 140,
             align: 'center',
             render: (basePrice) => {
-                return (
-                    <span>{formatMoneyValue(basePrice)}</span>
-                );
+                return <span>{formatMoneyValue(basePrice)}</span>;
             },
         },
-        { 
-            title: translate.formatMessage(commonMessage.cookingTime), 
-            dataIndex: 'cookingTime', 
-            width: 140, 
-            align: 'center', 
+        {
+            title: translate.formatMessage(commonMessage.cookingTime),
+            dataIndex: 'cookingTime',
+            width: 140,
+            align: 'center',
             render: (cookingTime) => {
-                return (
-                    <span>{cookingTime}p</span>
-                );
+                return <span>{cookingTime}p</span>;
             },
         },
-        {   
-            title: translate.formatMessage(commonMessage.category), 
-            dataIndex: ['category', 'name'], 
-            width: 180, 
+        {
+            title: translate.formatMessage(commonMessage.category),
+            dataIndex: ['category', 'name'],
+            width: 180,
         },
         {
             title: translate.formatMessage(commonMessage.tag),
@@ -122,8 +183,9 @@ const FoodListPage = ({ pageOptions }) => {
         mixinFuncs.renderStatusColumn({ width: 140 }),
         mixinFuncs.renderActionColumn(
             {
-                edit: mixinFuncs.hasPermission([apiConfig.food.update.permissionCode]),
-                delete: mixinFuncs.hasPermission([apiConfig.food.delete.permissionCode]),
+                viewOption: true,
+                edit: true,
+                delete: true,
             },
             { width: 160 },
         ),
@@ -205,6 +267,11 @@ const FoodListPage = ({ pageOptions }) => {
                         }}
                     />
                 }
+            />
+            <FoodOptionModal
+                open={openOptionModal}
+                onCancel={() => setOpenOptionModal(false)}
+                foodId={selectedFoodId}
             />
         </PageWrapper>
     );

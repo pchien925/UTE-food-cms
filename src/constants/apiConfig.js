@@ -535,6 +535,44 @@ const apiConfig = {
             headers: baseHeader,
         },
     },
+    foodOption: {
+        getList: {
+            baseURL: `${apiUrl}api/food-option/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'FOOD_V',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/food-option/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'FOOD_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/food-option/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'FOOD_D',
+        },
+        update: {
+            baseURL: `${apiUrl}api/food-option/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'FOOD_D',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/food-option/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'FOOD_D',
+        },
+        updateSort: {
+            baseURL: `${apiUrl}api/food-option/update-sort`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'FOOD_D',
+        },
+    },
     combo: {
         getList: {
             baseURL: `${apiUrl}api/combo/list`,

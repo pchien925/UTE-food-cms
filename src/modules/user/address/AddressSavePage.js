@@ -4,12 +4,11 @@ import apiConfig from '@constants/apiConfig';
 import useSaveBase from '@hooks/useSaveBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
-import { showErrorMessage } from '@services/notifyService';
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import AddressValueForm from './AddressValueForm';
+import AddressForm from './AddressForm';
 
-const AddressValueSavePage = ({ pageOptions }) => {
+const AddressSavePage = ({ pageOptions }) => {
     const translate = useTranslate();
     const { id, customerId } = useParams();
     const location = useLocation();
@@ -63,7 +62,7 @@ const AddressValueSavePage = ({ pageOptions }) => {
             loading={loading}
             routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search, customerId })}
         >
-            <AddressValueForm
+            <AddressForm
                 setIsChangedFormValues={setIsChangedFormValues}
                 dataDetail={detail ? detail : {}}
                 formId={mixinFuncs.getFormId()}
@@ -75,4 +74,4 @@ const AddressValueSavePage = ({ pageOptions }) => {
     );
 };
 
-export default AddressValueSavePage;
+export default AddressSavePage;

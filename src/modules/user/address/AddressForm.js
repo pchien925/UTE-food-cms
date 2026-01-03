@@ -1,6 +1,5 @@
 import AutoCompleteField from '@components/common/form/AutoCompleteField';
 import { BaseForm } from '@components/common/form/BaseForm';
-import NumericField from '@components/common/form/MoneyField';
 import SelectField from '@components/common/form/SelectField';
 import TextField from '@components/common/form/TextField';
 import { STATUS_ACTIVE } from '@constants';
@@ -9,12 +8,11 @@ import { statusOptions } from '@constants/masterData';
 import useBasicForm from '@hooks/useBasicForm';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
-import { checkEmail, checkFullName, checkPassword, checkPhone, checkUserName } from '@utils';
-import { Card, Col, Row, Checkbox, Form } from 'antd';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { checkFullName, checkPhone } from '@utils';
+import { Card, Checkbox, Col, Form, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-const AddressValueForm = (props) => {
+const AddressForm = (props) => {
     const translate = useTranslate();
     const { formId, actions, dataDetail, onSubmit, setIsChangedFormValues, isEditing } = props;
     const statusValue = translate.formatKeys(statusOptions, ['label']);
@@ -168,4 +166,4 @@ const AddressValueForm = (props) => {
     );
 };
 
-export default AddressValueForm;
+export default AddressForm;

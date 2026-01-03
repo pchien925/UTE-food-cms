@@ -1,10 +1,10 @@
+import { KIND_ADMIN, KIND_CUSTOMER, KIND_MANAGER } from '@constants';
 import apiConfig from '@constants/apiConfig';
 import { commonMessage } from '@locales/intl';
 import UserAdminListPage from '.';
 import UserAdminSavePage from './UserAdminSavePage';
-import AddressValueListPage from './addressValue';
-import AddressValueSavePage from './addressValue/AddressValueSavePage';
-import { KIND_ADMIN, KIND_CUSTOMER, KIND_MANAGER } from '@constants';
+import AddressListPage from './address';
+import AddressSavePage from './address/AddressSavePage';
 const paths = {
     adminsListPage: '/admins',
     adminsSavePage: '/admins/:id',
@@ -112,7 +112,7 @@ export default {
     addressListPage: {
         path: paths.addressListPage,
         auth: true,
-        component: AddressValueListPage,
+        component: AddressListPage,
         permission: [apiConfig.address.getList.permissionCode],
         pageOptions: {
             objectName: commonMessage.address,
@@ -126,7 +126,7 @@ export default {
     },
     addressSavePage: {
         path: paths.addressSavePage,
-        component: AddressValueSavePage,
+        component: AddressSavePage,
         separateCheck: true,
         auth: true,
         permission: [apiConfig.address.create.permissionCode, apiConfig.address.update.permissionCode],

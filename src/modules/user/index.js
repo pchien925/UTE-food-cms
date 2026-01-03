@@ -4,7 +4,7 @@ import useListBase from '@hooks/useListBase';
 import { Button, Empty, Tag } from 'antd';
 import React from 'react';
 
-import { DeleteOutlined, UserOutlined, EditOutlined, FileTextOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UserOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import AvatarField from '@components/common/form/AvatarField';
 import { BaseTooltip } from '@components/common/form/BaseTooltip';
 import TextField from '@components/common/form/TextField';
@@ -74,7 +74,7 @@ const UserAdminListPage = ({ pageOptions }) => {
                                 }}
                                 style={{ padding: 0 }}
                             >
-                                <FileTextOutlined />
+                                <EnvironmentOutlined />
                             </Button>
                         </BaseTooltip>
                     );

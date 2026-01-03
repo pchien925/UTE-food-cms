@@ -3,22 +3,24 @@ import apiConfig from '@constants/apiConfig';
 import useListBase from '@hooks/useListBase';
 import React from 'react';
 
-import { StarFilled } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { BaseTooltip } from '@components/common/form/BaseTooltip';
 import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
-import { DEFAULT_TABLE_ITEM_SIZE } from '@constants';
+import { DEFAULT_TABLE_ITEM_SIZE, STATUS_DELETE } from '@constants';
 import { FieldTypes } from '@constants/formConfig';
 import { statusOptions } from '@constants/masterData';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
-import { orderNumber, priceValue } from '@utils';
-import { Empty } from 'antd';
-import { useLocation, useParams } from 'react-router-dom';
 import { showErrorMessage } from '@services/notifyService';
+import { orderNumber } from '@utils';
+import { Button, Empty } from 'antd';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const AddressValueListPage = ({ pageOptions }) => {
+const AddressListPage = ({ pageOptions }) => {
     const translate = useTranslate();
     const location = useLocation();
+    const navigate = useNavigate();
     const { pathname: pagePath } = useLocation();
     const search = location.search;
     const { customerId } = useParams();
@@ -57,8 +59,50 @@ const AddressValueListPage = ({ pageOptions }) => {
                     }),
                 );
             };
-
-            funcs.additionalActionColumnButtons = () => ({});
+            funcs.additionalActionColumnButtons = () => ({
+                edit: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
+                    const hasPerm = mixinFuncs.hasPermission([apiConfig.address.update.permissionCode]);
+                    return (
+                        <BaseTooltip type="edit" objectName={translate.formatMessage(pageOptions.objectName)}>
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(mixinFuncs.getItemDetailLink(record), {
+                                        state: { action: 'edit', prevPath: location.pathname },
+                                    });
+                                }}
+                                type="link"
+                                style={{ padding: 0 }}
+                                disabled={!hasPerm || isDelete}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
+                delete: (record) => {
+                    const isDelete = record?.status === STATUS_DELETE;
+                    const hasPerm = mixinFuncs.hasPermission([apiConfig.address.delete.permissionCode]);
+                    return (
+                        <BaseTooltip type="delete" objectName={translate.formatMessage(pageOptions.objectName)}>
+                            <Button
+                                type="link"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    mixinFuncs.showDeleteItemConfirm(record.id);
+                                }}
+                                disabled={!hasPerm || record?.isSuperAdmin || isDelete}
+                                style={{ padding: 0 }}
+                            >
+                                <DeleteOutlined
+                                    style={{ color: !hasPerm || record?.isSuperAdmin || isDelete ? '' : 'red' }}
+                                />
+                            </Button>
+                        </BaseTooltip>
+                    );
+                },
+            });
 
             funcs.handleDeleteItemError = (error) => {
                 const code = error.response.data.code;
@@ -82,11 +126,7 @@ const AddressValueListPage = ({ pageOptions }) => {
                 const number = orderNumber(pagination, index);
                 return (
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-                        {record.isDefault ? (
-                            <StarFilled style={{ color: '#faad14', fontSize: '16px' }} />
-                        ) : (
-                            <span>{number}</span>
-                        )}
+                        {number}
                     </div>
                 );
             },
@@ -114,11 +154,24 @@ const AddressValueListPage = ({ pageOptions }) => {
                 return <div>{addr.join(', ')}</div>;
             },
         },
+        {
+            title: 'Mặc định',
+            dataIndex: 'isDefault',
+            align: 'center',
+            width: 140,
+            render: (isDefault) => {
+                return isDefault ? (
+                    <CheckOutlined style={{ color: 'green' }} />
+                ) : (
+                    <CloseOutlined style={{ color: 'red' }} />
+                );
+            },
+        },
         mixinFuncs.renderStatusColumn({ width: 140 }),
         mixinFuncs.renderActionColumn(
             {
-                edit: mixinFuncs.hasPermission([apiConfig.address.update.permissionCode]),
-                delete: mixinFuncs.hasPermission([apiConfig.address.delete.permissionCode]),
+                edit: true,
+                delete: true,
             },
             { width: 160 },
         ),
@@ -161,4 +214,4 @@ const AddressValueListPage = ({ pageOptions }) => {
     );
 };
 
-export default AddressValueListPage;
+export default AddressListPage;

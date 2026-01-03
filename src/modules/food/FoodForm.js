@@ -110,11 +110,7 @@ const FoodForm = (props) => {
                             name="cookingTime"
                             type="number"
                             min={1}
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
+                            required
                         />
                     </Col>
 
