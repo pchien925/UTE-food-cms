@@ -1,8 +1,7 @@
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import AutoCompleteField from '@components/common/form/AutoCompleteField';
 import { BaseForm } from '@components/common/form/BaseForm';
-import NumericField from '@components/common/form/NumericField';
-import SelectField from '@components/common/form/SelectField';
+import NumericField from '@components/common/form/MoneyField';
 import apiConfig from '@constants/apiConfig';
 import useBasicForm from '@hooks/useBasicForm';
 import useFetch from '@hooks/useFetch';
@@ -13,14 +12,14 @@ import { formatNumber } from '@utils';
 import { Button, Col, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const FoodOptionForm = (props) => {
+const ComboGroupItemForm = (props) => {
     const translate = useTranslate();
-    const { formId, dataDetail, foodId, onSubmit, open, onCancel, onDone, isEditing, nextOrdering } = props;
+    const { formId, dataDetail, comboGroupId, onSubmit, open, onCancel, onDone, isEditing, nextOrdering } = props;
 
     const [isChangedFormValues, setIsChangedFormValues] = useState(false);
 
     const { execute: executeSave, loading } = useFetch(
-        isEditing ? apiConfig.foodOption.update : apiConfig.foodOption.create,
+        isEditing ? apiConfig.comboGroupItem.update : apiConfig.comboGroupItem.create,
     );
 
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
@@ -29,21 +28,11 @@ const FoodOptionForm = (props) => {
     });
 
     const handleFinish = (values) => {
-        const selectedOptionId = values.option?.id;
-
-        if (!selectedOptionId) {
-            showErrorMessage('Vui lòng chọn tên tùy chọn!');
-            return;
-        }
-
-        const orderingValue = isEditing ? dataDetail?.ordering : nextOrdering;
-
         const payload = {
-            foodId,
-            optionId: selectedOptionId,
-            ordering: orderingValue,
-            requirementType: parseInt(values.requirementType),
-            maxSelect: values.maxSelect,
+            comboGroupId: String(comboGroupId),
+            foodId: String(values.food?.id),
+            ordering: isEditing ? dataDetail?.ordering : nextOrdering,
+            extraPrice: values.extraPrice,
         };
 
         if (isEditing) {
@@ -90,24 +79,22 @@ const FoodOptionForm = (props) => {
         setIsChangedFormValues(false);
         if (isEditing && dataDetail) {
             form.setFieldsValue({
-                option: {
-                    id: dataDetail.option?.id,
-                    name: dataDetail.option?.name,
+                food: {
+                    id: dataDetail.food?.id,
+                    name: dataDetail.food?.name,
                 },
-                requirementType: String(dataDetail.requirementType),
-                maxSelect: dataDetail.maxSelect,
+                extraPrice: dataDetail.extraPrice,
             });
         } else {
             form.setFieldsValue({
-                requirementType: '1',
-                maxSelect: 1,
+                extraPrice: 0,
             });
         }
     }, [open, isEditing, dataDetail]);
 
     return (
         <Modal
-            title={isEditing ? 'Chỉnh sửa lựa chọn món' : 'Thêm lựa chọn món'}
+            title={isEditing ? 'Chỉnh sửa món' : 'Thêm món'}
             open={open}
             onCancel={onCancel}
             width={600}
@@ -127,9 +114,9 @@ const FoodOptionForm = (props) => {
                 <Row gutter={16}>
                     <Col span={24}>
                         <AutoCompleteField
-                            label="Tên tùy chọn (Option)"
-                            name={['option', 'id']}
-                            apiConfig={apiConfig.option.autoComplete}
+                            label="Tên món ăn"
+                            name={['food', 'id']}
+                            apiConfig={apiConfig.food.autoComplete}
                             mappingOptions={(item) => ({ value: item.id, label: item.name })}
                             searchParams={(text) => ({ name: text })}
                             required
@@ -137,23 +124,11 @@ const FoodOptionForm = (props) => {
                         />
                     </Col>
 
-                    <Col span={12}>
-                        <SelectField
-                            label="Loại yêu cầu"
-                            name="requirementType"
-                            options={[
-                                { value: '1', label: 'Bắt buộc' },
-                                { value: '0', label: 'Tùy chọn' },
-                            ]}
-                            required
-                        />
-                    </Col>
-
-                    <Col span={12}>
+                    <Col span={24}>
                         <NumericField
-                            label="Chọn tối đa"
-                            name="maxSelect"
-                            min={1}
+                            label="Giá cộng thêm"
+                            name="extraPrice"
+                            min={0}
                             required
                             formatter={(value) => formatNumber(value)}
                         />
@@ -187,4 +162,4 @@ const FoodOptionForm = (props) => {
     );
 };
 
-export default FoodOptionForm;
+export default ComboGroupItemForm;

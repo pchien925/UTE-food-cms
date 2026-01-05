@@ -9,7 +9,7 @@ import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
 import { AppConstants, DEFAULT_TABLE_ITEM_SIZE } from '@constants';
 import { FieldTypes } from '@constants/formConfig';
-import { comboOptions } from '@constants/masterData';
+import { foodOptions } from '@constants/masterData';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { formatMoneyValue } from '@utils';
@@ -21,7 +21,7 @@ const ComboListPage = ({ pageOptions }) => {
     const location = useLocation();
     const { pathname: pagePath } = useLocation();
     const search = location.search;
-    const statusValue = translate.formatKeys(comboOptions, ['label']);
+    const statusValue = translate.formatKeys(foodOptions, ['label']);
     const navigate = useNavigate();
 
     const { data, mixinFuncs, queryFilter, loading, pagination } = useListBase({
@@ -67,7 +67,24 @@ const ComboListPage = ({ pageOptions }) => {
                 );
             },
         },
-        { title: translate.formatMessage(commonMessage.comboName), dataIndex: 'name' },
+        {
+            title: translate.formatMessage(commonMessage.comboName),
+            dataIndex: 'name',
+            render: (name, record) => (
+                <div
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`${pagePath}/${record.id}/combo-groups`);
+                    }}
+                    style={{
+                        cursor: 'pointer',
+                        color: '#1677ff',
+                    }}
+                >
+                    {name}
+                </div>
+            ),
+        },
         {
             title: translate.formatMessage(commonMessage.basePrice),
             dataIndex: 'basePrice',

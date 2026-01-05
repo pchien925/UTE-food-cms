@@ -25,6 +25,7 @@ const FoodListPage = ({ pageOptions }) => {
     const search = location.search;
     const statusValue = translate.formatKeys(foodOptions, ['label']);
     const navigate = useNavigate();
+    
     const [openOptionModal, setOpenOptionModal] = useState(false);
     const [selectedFoodId, setSelectedFoodId] = useState(null);
 

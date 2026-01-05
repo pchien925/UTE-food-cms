@@ -69,7 +69,10 @@ export default {
                 const { search, optionId } = options;
                 return [
                     { breadcrumbName: t.formatMessage(messages.option), path: paths.optionListPage },
-                    { breadcrumbName: t.formatMessage(messages.optionValue), path: paths.optionValueListPage.replace(':optionId', optionId) + search },
+                    {
+                        breadcrumbName: t.formatMessage(messages.optionValue),
+                        path: paths.optionValueListPage.replace(':optionId', optionId) + search,
+                    },
                     { breadcrumbName: title },
                 ];
             },

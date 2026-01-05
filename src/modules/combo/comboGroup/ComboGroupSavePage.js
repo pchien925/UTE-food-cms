@@ -3,20 +3,22 @@ import apiConfig from '@constants/apiConfig';
 import useSaveBase from '@hooks/useSaveBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
-import { showErrorMessage } from '@services/notifyService';
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import OptionValueForm from './OptionValueForm';
+import ComboGroupForm from './ComboGroupForm';
 
-const OptionValueSavePage = ({ pageOptions }) => {
+const ComboGroupSavePage = ({ pageOptions }) => {
     const translate = useTranslate();
-    const { id, optionId } = useParams();
+    const { id, comboId } = useParams();
     const location = useLocation();
     const search = location.search;
+
+    const queryParams = new URLSearchParams(location.search);
+    const nextOrdering = queryParams.get('nextOrdering');
     const { detail, mixinFuncs, loading, onSave, setIsChangedFormValues, isEditing, title, setSubmit } = useSaveBase({
-        apiConfig: apiConfig.optionValue,
+        apiConfig: apiConfig.comboGroup,
         options: {
-            getListUrl: pageOptions.listPageUrl + `${search}`,
+            getListUrl: pageOptions.listPageUrl.replace(':comboId', comboId) + `${search}`,
             objectName: translate.formatMessage(pageOptions.objectName),
         },
         override: (funcs) => {
@@ -24,28 +26,25 @@ const OptionValueSavePage = ({ pageOptions }) => {
                 return {
                     ...data,
                     id: id,
-                    optionId: optionId,
+                    comboId: comboId,
+                    ordering: data.ordering,
                 };
             };
+
             funcs.prepareCreateData = (data) => {
                 return {
                     ...data,
-                    optionId: optionId,
+                    comboId: comboId,
+                    ordering: nextOrdering || 1,
                 };
             };
-            funcs.mappingData = (data) => {
-                return {
-                    ...data.data,
-                };
-            };
-            funcs.onSaveError = (err) => {
-                const errorCode = err?.response?.data?.code;
-                if (errorCode === 'ERROR-OPTION-VALUE-0001') {
-                    showErrorMessage('Giá trị đã tồn tại!');
-                } else {
-                    showErrorMessage('Có lỗi xảy ra, vui lòng thử lại sau!');
+
+            funcs.mappingData = (response) => {
+                if (response.result === true) {
+                    return {
+                        ...response.data,
+                    };
                 }
-                setSubmit(false);
             };
         },
     });
@@ -53,9 +52,9 @@ const OptionValueSavePage = ({ pageOptions }) => {
     return (
         <PageWrapper
             loading={loading}
-            routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search, optionId })}
+            routes={pageOptions.renderBreadcrumbs(commonMessage, translate, title, { search, comboId })}
         >
-            <OptionValueForm
+            <ComboGroupForm
                 setIsChangedFormValues={setIsChangedFormValues}
                 dataDetail={detail ? detail : {}}
                 formId={mixinFuncs.getFormId()}
@@ -67,4 +66,4 @@ const OptionValueSavePage = ({ pageOptions }) => {
     );
 };
 
-export default OptionValueSavePage;
+export default ComboGroupSavePage;

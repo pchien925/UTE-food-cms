@@ -610,6 +610,76 @@ const apiConfig = {
             headers: baseHeader,
         },
     },
+    comboGroup: {
+        getList: {
+            baseURL: `${apiUrl}api/combo-group/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_V',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/combo-group/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/combo-group/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_D',
+        },
+        update: {
+            baseURL: `${apiUrl}api/combo-group/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_D',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/combo-group/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_D',
+        },
+        updateSort: {
+            baseURL: `${apiUrl}api/combo-group/update-sort`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_D',
+        },
+    },
+    comboGroupItem: {
+        getList: {
+            baseURL: `${apiUrl}api/combo-group-item/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_U',
+        },
+        create: {
+            baseURL: `${apiUrl}api/combo-group-item/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_U',
+        },
+        update: {
+            baseURL: `${apiUrl}api/combo-group-item/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/combo-group-item/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_U',
+        },
+        updateSort: {
+            baseURL: `${apiUrl}api/combo-group-item/update-sort`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'COM_GR_U',
+        },
+    },
     category: {
         getList: {
             baseURL: `${apiUrl}api/category/list`,

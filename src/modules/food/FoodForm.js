@@ -12,13 +12,16 @@ import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { showErrorMessage, showSuccessMessage } from '@services/notifyService';
 import { checkPrice, formatNumber } from '@utils';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Empty, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
+import SelectField from '@components/common/form/SelectField';
+import { foodOptions } from '@constants/masterData';
 
 const FoodForm = (props) => {
     const translate = useTranslate();
     const { formId, actions, dataDetail, onSubmit, setIsChangedFormValues, isEditing } = props;
     const { execute: executeUpFile } = useFetch(apiConfig.file.upload);
+    const statusValue = translate.formatKeys(foodOptions, ['label']);
     const [imageUrl, setImageUrl] = useState(null);
 
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
@@ -64,6 +67,7 @@ const FoodForm = (props) => {
     useEffect(() => {
         form.setFieldsValue({
             ...dataDetail,
+            tagIds: dataDetail.tags?.map(tag => tag.id),
         });
         setImageUrl(dataDetail.imageUrl);
     }, [dataDetail]);
@@ -113,7 +117,16 @@ const FoodForm = (props) => {
                             required
                         />
                     </Col>
-
+                    <Col span={12}>
+                        <SelectField
+                            name='status'
+                            label="Trạng thái"
+                            allowClear={false}
+                            disabled={!isEditing}
+                            options={statusValue}
+                            required
+                        />
+                    </Col>
                     <Col span={12}>
                         <AutoCompleteField
                             label="Danh mục"
@@ -122,6 +135,26 @@ const FoodForm = (props) => {
                             allowClear={false}
                             apiConfig={apiConfig.category.autoComplete}
                             mappingOptions={(item) => ({ label: item.name, value: item.id })}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <AutoCompleteField
+                            label="Nhãn"
+                            name={['tagIds']}
+                            required
+                            allowClear={false}
+                            apiConfig={apiConfig.tag.autoComplete}
+                            mappingOptions={(item) => ({ label: item.name, value: item.id })}
+                            fieldProps={{
+                                mode: 'multiple',
+                                maxCount: 2,
+                                notFoundContent: (
+                                    <Empty
+                                        style={{ width: '80%', height: '80%', margin: '0 auto' }}
+                                        description={translate.formatMessage(commonMessage.noData)}
+                                    />
+                                ),
+                            }}
                         />
                     </Col>
                 </Row>

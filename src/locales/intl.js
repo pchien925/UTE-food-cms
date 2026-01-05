@@ -154,6 +154,7 @@ export const commonMessage = defineMessages({
     foodName: 'Tên đồ ăn',
     combo: 'Combo',
     comboName: 'Tên combo',
+    comboGroup: 'Nhóm combo',
     basePrice: 'Giá gốc',
     cookingTime: 'Thời gian nấu',
     categoryName: 'Tên danh mục',

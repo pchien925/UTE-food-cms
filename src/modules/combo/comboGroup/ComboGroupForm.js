@@ -1,19 +1,16 @@
 import { BaseForm } from '@components/common/form/BaseForm';
 import NumericField from '@components/common/form/MoneyField';
-import SelectField from '@components/common/form/SelectField';
 import TextField from '@components/common/form/TextField';
-import { STATUS_ACTIVE } from '@constants';
-import { foodFormOptions } from '@constants/masterData';
 import useBasicForm from '@hooks/useBasicForm';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
+import { formatNumber } from '@utils';
 import { Card, Col, Row } from 'antd';
 import React, { useEffect } from 'react';
 
-const OptionValueForm = (props) => {
+const ComboGroupForm = (props) => {
     const translate = useTranslate();
     const { formId, actions, dataDetail, onSubmit, setIsChangedFormValues, isEditing } = props;
-    const statusValue = translate.formatKeys(foodFormOptions, ['label']);
 
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
         onSubmit,
@@ -23,14 +20,6 @@ const OptionValueForm = (props) => {
     const handleSubmit = (values) => {
         return mixinFuncs.handleSubmit({ ...values });
     };
-
-    useEffect(() => {
-        if (!isEditing) {
-            form.setFieldsValue({
-                status: STATUS_ACTIVE,
-            });
-        }
-    }, [isEditing]);
 
     useEffect(() => {
         form.setFieldsValue({
@@ -43,38 +32,40 @@ const OptionValueForm = (props) => {
             <Card className="card-form" bordered={false}>
                 <Row gutter={16}>
                     <Col span={12}>
-                        <TextField
-                            label={translate.formatMessage(commonMessage.optionValueName)}
-                            name="name"
+                        <TextField label={translate.formatMessage(commonMessage.comboGroup)} name="name" required />
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <NumericField
+                            label="Chọn tối thiểu"
+                            name="minSelect"
+                            min={0}
+                            max={1}
                             required
+                            formatter={(value) => formatNumber(value)}
                         />
                     </Col>
                     <Col span={12}>
                         <NumericField
-                            label={translate.formatMessage(commonMessage.extraPrice)}
-                            name="extraPrice"
+                            label="Chọn tối đa"
+                            name="maxSelect"
                             min={0}
-                            addonAfter="₫"
-                            defaultValue={0}
+                            max={2}
                             required
+                            formatter={(value) => formatNumber(value)}
                         />
                     </Col>
-                    <Col span={12}>
-                        <SelectField
-                            name="status"
-                            label="Trạng thái"
-                            allowClear={false}
-                            disabled={!isEditing}
-                            options={statusValue}
-                            required
-                        />
-                    </Col>
+                </Row>
+
+                <Row gutter={16}>
                     <Col span={24}>
                         <TextField
-                            label={translate.formatMessage(commonMessage.optionDescription)}
+                            label={translate.formatMessage(commonMessage.description)}
                             name="description"
                             type="textarea"
-                            required
+                            rows={4}
                         />
                     </Col>
                 </Row>
@@ -84,4 +75,4 @@ const OptionValueForm = (props) => {
     );
 };
 
-export default OptionValueForm;
+export default ComboGroupForm;

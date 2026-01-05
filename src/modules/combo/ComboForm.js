@@ -2,23 +2,26 @@ import DefaultAvatar from '@assets/images/avatar-default.png';
 import AutoCompleteField from '@components/common/form/AutoCompleteField';
 import { BaseForm } from '@components/common/form/BaseForm';
 import CropImageField from '@components/common/form/CropImageField';
-import TextField from '@components/common/form/TextField';
 import NumericField from '@components/common/form/MoneyField';
+import SelectField from '@components/common/form/SelectField';
+import TextField from '@components/common/form/TextField';
 import { AppConstants, STATUS_ACTIVE } from '@constants';
 import apiConfig from '@constants/apiConfig';
+import { foodOptions } from '@constants/masterData';
 import useBasicForm from '@hooks/useBasicForm';
 import useFetch from '@hooks/useFetch';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import { showErrorMessage, showSuccessMessage } from '@services/notifyService';
 import { checkPrice, formatNumber } from '@utils';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Empty, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const ComboForm = (props) => {
     const translate = useTranslate();
     const { formId, actions, dataDetail, onSubmit, setIsChangedFormValues, isEditing } = props;
     const { execute: executeUpFile } = useFetch(apiConfig.file.upload);
+    const statusValue = translate.formatKeys(foodOptions, ['label']);
     const [imageUrl, setImageUrl] = useState(null);
 
     const { form, mixinFuncs, onValuesChange } = useBasicForm({
@@ -64,6 +67,7 @@ const ComboForm = (props) => {
     useEffect(() => {
         form.setFieldsValue({
             ...dataDetail,
+            tagIds: dataDetail.tags?.map(tag => tag.id),
         });
         setImageUrl(dataDetail.imageUrl);
     }, [dataDetail]);
@@ -117,6 +121,16 @@ const ComboForm = (props) => {
                             ]}
                         />
                     </Col>
+                    <Col span={12}>
+                        <SelectField
+                            name='status'
+                            label="Trạng thái"
+                            allowClear={false}
+                            disabled={!isEditing}
+                            options={statusValue}
+                            required
+                        />
+                    </Col>
 
                     <Col span={12}>
                         <AutoCompleteField
@@ -126,6 +140,26 @@ const ComboForm = (props) => {
                             allowClear={false}
                             apiConfig={apiConfig.category.autoComplete}
                             mappingOptions={(item) => ({ label: item.name, value: item.id })}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <AutoCompleteField
+                            label="Nhãn"
+                            name={['tagIds']}
+                            required
+                            allowClear={false}
+                            apiConfig={apiConfig.tag.autoComplete}
+                            mappingOptions={(item) => ({ label: item.name, value: item.id })}
+                            fieldProps={{
+                                mode: 'multiple',
+                                maxCount: 2,
+                                notFoundContent: (
+                                    <Empty
+                                        style={{ width: '80%', height: '80%', margin: '0 auto' }}
+                                        description={translate.formatMessage(commonMessage.noData)}
+                                    />
+                                ),
+                            }}
                         />
                     </Col>
                 </Row>
