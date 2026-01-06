@@ -680,6 +680,43 @@ const apiConfig = {
             permissionCode: 'COM_GR_U',
         },
     },
+    branch: {
+        getList: {
+            baseURL: `${apiUrl}api/branch/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'BR_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/branch/get/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'BR_V',
+        },
+        create: {
+            baseURL: `${apiUrl}api/branch/create`,
+            method: 'POST',
+            headers: baseHeader,
+            permissionCode: 'BR_C',
+        },
+        update: {
+            baseURL: `${apiUrl}api/branch/update`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'BR_U',
+        },
+        delete: {
+            baseURL: `${apiUrl}api/branch/delete/:id`,
+            method: 'DELETE',
+            headers: baseHeader,
+            permissionCode: 'BR_D',
+        },
+        autoComplete: {
+            baseURL: `${apiUrl}api/branch/auto-complete`,
+            method: 'GET',
+            headers: baseHeader,
+        },
+    },
     category: {
         getList: {
             baseURL: `${apiUrl}api/category/list`,

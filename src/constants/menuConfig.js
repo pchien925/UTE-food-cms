@@ -1,4 +1,10 @@
-import { SettingOutlined, UsergroupAddOutlined, InboxOutlined, CoffeeOutlined } from '@ant-design/icons';
+import {
+    SettingOutlined,
+    UsergroupAddOutlined,
+    InboxOutlined,
+    CoffeeOutlined,
+    ApartmentOutlined,
+} from '@ant-design/icons';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import apiConfig from './apiConfig';
@@ -53,6 +59,19 @@ export const navMenuConfig = [
                 key: 'options',
                 path: '/options',
                 permission: [apiConfig.option.getList.permissionCode],
+            },
+        ],
+    },
+    {
+        label: <FormattedMessage defaultMessage="Quản lý chi nhánh" />,
+        key: 'branch-management',
+        icon: <ApartmentOutlined />,
+        children: [
+            {
+                label: <FormattedMessage defaultMessage="Chi nhánh" />,
+                key: 'branches',
+                path: '/branches',
+                permission: [apiConfig.branch.getList.permissionCode],
             },
         ],
     },

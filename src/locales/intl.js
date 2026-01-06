@@ -1,3 +1,4 @@
+import { brandName } from '@constants';
 import { defineMessages } from 'react-intl';
 
 export const commonMessage = defineMessages({
@@ -162,4 +163,6 @@ export const commonMessage = defineMessages({
     update: 'Cập nhật',
     create: 'Thêm mới',
     cancel: 'Hủy',
+    branch: 'Chi nhánh',
+    brandName: 'Tên chi nhánh',
 });

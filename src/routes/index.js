@@ -11,12 +11,13 @@ import nationsRoutes from '@modules/nation/routes';
 import optionsRoutes from '@modules/option/routes';
 import foodsRoutes from '@modules/food/routes';
 import combosRoutes from '@modules/combo/routes';
+import branchesRoutes from '@modules/branch/routes';
 import categoriesRoutes from '@modules/category/routes';
 /*
-	auth
-		+ null: access login and not login
-		+ true: access login only
-		+ false: access not login only
+    auth
+        + null: access login and not login
+        + true: access login only
+        + false: access not login only
 */
 const routes = {
     pageNotAllowed: {
@@ -63,6 +64,7 @@ const routes = {
     ...optionsRoutes,
     ...foodsRoutes,
     ...combosRoutes,
+    ...branchesRoutes,
     ...categoriesRoutes,
     // keep this at last
     notFound: {
