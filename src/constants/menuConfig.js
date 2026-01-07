@@ -76,6 +76,19 @@ export const navMenuConfig = [
         ],
     },
     {
+        label: <FormattedMessage defaultMessage="Quản lý đơn hàng" />,
+        key: 'order-management',
+        icon: <ApartmentOutlined />,
+        children: [
+            {
+                label: <FormattedMessage defaultMessage="Đơn hàng" />,
+                key: 'orders',
+                path: '/orders',
+                permission: [apiConfig.order.getList.permissionCode],
+            },
+        ],
+    },
+    {
         label: <FormattedMessage defaultMessage="Quản lý danh mục" />,
         key: 'category-management',
         icon: <InboxOutlined />,

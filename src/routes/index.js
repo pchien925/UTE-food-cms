@@ -12,6 +12,7 @@ import optionsRoutes from '@modules/option/routes';
 import foodsRoutes from '@modules/food/routes';
 import combosRoutes from '@modules/combo/routes';
 import branchesRoutes from '@modules/branch/routes';
+import ordersRoutes from '@modules/order/routes';
 import categoriesRoutes from '@modules/category/routes';
 /*
     auth
@@ -66,6 +67,7 @@ const routes = {
     ...combosRoutes,
     ...branchesRoutes,
     ...categoriesRoutes,
+    ...ordersRoutes,
     // keep this at last
     notFound: {
         component: PageNotFound,

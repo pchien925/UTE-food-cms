@@ -165,4 +165,5 @@ export const commonMessage = defineMessages({
     cancel: 'Hủy',
     branch: 'Chi nhánh',
     brandName: 'Tên chi nhánh',
+    order: 'Đơn hàng',
 });

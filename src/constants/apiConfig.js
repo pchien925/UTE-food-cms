@@ -760,6 +760,26 @@ const apiConfig = {
             permissionCode: 'CAT_U',
         },
     },
+    order: {
+        getList: {
+            baseURL: `${apiUrl}api/order/admin/list`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'ORD_L',
+        },
+        getById: {
+            baseURL: `${apiUrl}api/order/admin/detail/:id`,
+            method: 'GET',
+            headers: baseHeader,
+            permissionCode: 'ORD_V',
+        },
+        updateStatus: {
+            baseURL: `${apiUrl}api/order/admin/update-status`,
+            method: 'PUT',
+            headers: baseHeader,
+            permissionCode: 'ORD_U',
+        },
+    },
 };
 
 export default apiConfig;

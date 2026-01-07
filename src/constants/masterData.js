@@ -52,6 +52,10 @@ const commonMessage = defineMessages({
     private: 'Riêng tư',
     guest: 'Khách',
     moderator: 'Moderator',
+    orderStatusPending: 'Đang xử lý',
+    orderStatusSuccess: 'Thành công',
+    orderStatusFailed: 'Thất bại',
+    orderStatusRefunded: 'Hoàn tiền',
 });
 
 export const languageOptions = [
@@ -77,6 +81,29 @@ export const statusOptions = [
     { value: STATUS_PENDING, label: commonMessage.statusPending, color: '#FFBF00' },
     { value: STATUS_INACTIVE, label: commonMessage.statusInactive, color: '#CC0000' },
     { value: STATUS_DELETE, label: commonMessage.statusDelete, color: '#CC0000' },
+];
+
+export const orderStatusOptions = [
+    {
+        value: 1,
+        label: commonMessage.orderStatusPending, // Đang xử lý
+        color: '#FFBF00',
+    },
+    {
+        value: 2,
+        label: commonMessage.orderStatusSuccess, // Thành công
+        color: '#00A648',
+    },
+    {
+        value: 3,
+        label: commonMessage.orderStatusFailed, // Thất bại
+        color: '#CC0000',
+    },
+    {
+        value: 4,
+        label: commonMessage.orderStatusRefunded, // Hoàn tiền
+        color: '#1890FF',
+    },
 ];
 
 export const foodOptions = [
