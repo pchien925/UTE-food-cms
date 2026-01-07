@@ -4,6 +4,7 @@ import {
     InboxOutlined,
     CoffeeOutlined,
     ApartmentOutlined,
+    HistoryOutlined,
 } from '@ant-design/icons';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -78,7 +79,7 @@ export const navMenuConfig = [
     {
         label: <FormattedMessage defaultMessage="Quản lý đơn hàng" />,
         key: 'order-management',
-        icon: <ApartmentOutlined />,
+        icon: <HistoryOutlined />,
         children: [
             {
                 label: <FormattedMessage defaultMessage="Đơn hàng" />,
